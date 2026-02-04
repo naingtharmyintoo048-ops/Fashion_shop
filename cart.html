@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cart | Urban Vogue</title>
+  <style>
+    body { font-family: Arial; background:#f5f5f5; color:black; padding:30px; }
+    .cart { max-width:500px; margin:auto; background:white; padding:20px; border-radius:10px; box-shadow:0 10px 25px rgba(0,0,0,0.1); text-align:center; }
+    h2 { margin-bottom:20px; }
+    img { width:100%; border-radius:8px; margin-bottom:10px; }
+    input, textarea { width:100%; padding:8px; margin:8px 0; border-radius:5px; border:1px solid #ccc; }
+    button { padding:12px 25px; background:black; color:white; border:none; border-radius:6px; cursor:pointer; margin-top:10px; width:100%; transition: transform 0.3s; }
+    button:hover { transform: translateY(-3px); box-shadow:0 8px 15px rgba(0,0,0,0.2); }
+    .success { color:green; font-weight:bold; margin-top:15px; }
+    .error { color:red; font-weight:bold; margin-top:15px; }
+  </style>
+</head>
+<body>
+
+<div class="cart">
+  <h2>Checkout</h2>
+  <img id="prodImg" src="">
+  <p id="prodName"></p>
+  <p id="prodPrice"></p>
+
+  <input type="text" id="userName" placeholder="Your Name">
+  <input type="tel" id="userPhone" placeholder="Phone Number">
+  <textarea id="userLocation" placeholder="Delivery Location"></textarea>
+
+  <button onclick="placeOrder()">Place Order</button>
+
+  <div id="status"></div>
+</div>
+
+<script>
+  // Telegram bot info
+  const BOT_TOKEN = "8409928509:AAHX8lIs23ofdAKsIGCIk4qSY08-67Hz3k0";
+  const CHAT_ID = "6159859065";
+
+  // Get product info from URL
+  const params = new URLSearchParams(window.location.search);
+  const name = params.get('name');
+  const image = params.get('image');
+  const price = params.get('price');
+
+  document.getElementById('prodImg').src = image;
+  document.getElementById('prodName').textContent = name;
+  document.getElementById('prodPrice').textContent = `Price: $${price}`;
+
+  function placeOrder() {
+    const userName = document.getElementById('userName').value;
+    const userPhone = document.getElementById('userPhone').value;
+    const location = document.getElementById('userLocation').value;
+    const statusDiv = document.getElementById('status');
+
+    if(!userName || !userPhone || !location){
+      statusDiv.innerHTML = '<span class="error">Please fill all fields!</span>';
+      return;
+    }
+
+    // Build message
+    const message = `🛒 New Order:\nProduct: ${name}\nPrice: $${price}\nName: ${userName}\nPhone: ${userPhone}\nDelivery: ${location}`;
+
+    // Send message to Telegram bot via HTTP API
+    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: CHAT_ID,
+        text: message
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if(data.ok){
+        statusDiv.innerHTML = '<span class="success">Order sent successfully!</span>';
+      } else {
+        statusDiv.innerHTML = '<span class="error">Failed to send order. Try again.</span>';
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      statusDiv.innerHTML = '<span class="error">Error sending order.</span>';
+    });
+  }
+</script>
+
+</body>
+</html>
