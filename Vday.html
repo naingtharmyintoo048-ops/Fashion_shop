@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>For My Love ❤️</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#1e1e2f,#432371,#f64f59);
+  font-family: 'Georgia', serif;
+  overflow:hidden;
+}
+
+/* Scene */
+.scene{
+  perspective:1500px;
+}
+
+/* Envelope */
+.envelope{
+  width:420px;
+  height:270px;
+  position:relative;
+  transform-style:preserve-3d;
+}
+
+/* Envelope Base */
+.base{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:#f2d8a7;
+  border-radius:8px;
+  box-shadow:0 25px 50px rgba(0,0,0,0.5);
+}
+
+/* Flap */
+.flap{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:#e6c27a;
+  clip-path:polygon(0 0,100% 0,50% 65%);
+  transform-origin:top;
+  transition:1.5s ease;
+  box-shadow:inset 0 -5px 15px rgba(0,0,0,0.2);
+}
+
+/* Wax Seal */
+.wax{
+  position:absolute;
+  width:75px;
+  height:75px;
+  background:radial-gradient(circle at 30% 30%,#ff5f6d,#b31217);
+  border-radius:50%;
+  top:105px;
+  left:172px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:white;
+  font-size:24px;
+  cursor:pointer;
+  box-shadow:
+    inset -4px -6px 10px rgba(0,0,0,0.4),
+    0 8px 20px rgba(0,0,0,0.6);
+  transition:0.3s;
+}
+
+.wax:hover{
+  transform:scale(1.1);
+}
+
+/* Letter Paper */
+.letter{
+  position:absolute;
+  width:380px;
+  height:230px;
+  background:#fffdf6;
+  top:20px;
+  left:20px;
+  padding:25px;
+  box-sizing:border-box;
+  border-radius:5px;
+  transform:translateY(160px);
+  opacity:0;
+  transition:1.5s ease;
+  box-shadow:0 10px 30px rgba(0,0,0,0.4);
+
+  /* Scrollable */
+  overflow-y:auto;
+  scroll-behavior:smooth;
+}
+
+/* Scrollbar Styling */
+.letter::-webkit-scrollbar {
+  width:10px;
+}
+.letter::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+  border-radius:5px;
+}
+.letter::-webkit-scrollbar-thumb {
+  background: #888; 
+  border-radius:5px;
+}
+.letter::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+/* Open Animation */
+.open .flap{
+  transform:rotateX(-180deg);
+}
+.open .letter{
+  transform:translateY(-140px);
+  opacity:1;
+}
+
+/* Ending Slide */
+.end-slide{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:black;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:40px;
+  opacity:0;
+  pointer-events:none;
+  transition:2s ease;
+}
+
+.show-end{
+  opacity:1;
+}
+</style>
+</head>
+
+<body>
+
+<div class="scene">
+  <div class="envelope" id="env">
+    <div class="base"></div>
+    <div class="flap"></div>
+
+    <div class="wax" onclick="openEnvelope()">💌</div>
+
+    <div class="letter" id="letter">
+      <h2>My Love,</h2>
+      <p>
+       မမ ပိစိ‌ေလးရေ😭🫶
+Happy Valentine's Dayပါဗျာ။ မမ ပိစိ ကမောင့်ထက်အသက်ကြီးပေမဲ့ အမြဲနားလည်ပေးတယ်၊ဂရုစိုက်ပေးတဲ့ အတွက်မမကိုကျေးဇူးးးနင်ပါတယ်ဗျာ။ မမရှိနေခြင်းတစ်ခုတည်းနဲ့တင်တောင် မောင့်ဘ၀က ပိုပြီးအဓိပ္ပါယ်ရှိလာတယ်ဗျာ😭🫶။
+စိတ်ပင်ပန်းတဲ့အချိန်တိုင်းမှာ မမနဲ့စကားပြောလိုက်ရရင်ကို စိတ်ထဲမှာ ပင်ပန်းတယ်ဆိုတာတောင်မသိတော့တဲ့ထိဘဲဗျာ🥹။ မမ မောင့်ကိုနားလည်ပေးခဲ့တာတွေကိုလည်း‌မောင့်ကျေးဇူးအရမ်းတင်ပါတယ်ဗျာ။ စတွဲထဲက အခုထိမောင့်အနားရှိနေပေးလို့လည်းကျေးဇူးတင်ပါတယ်ဗျာ့။မောင်မှာအခုလိုအရမ်းးးးးချစ်ဖို့ကောင်းတဲ့ မမတစ်ယောက်ရှိရတာ မောင့်မှာသေမသက်ကိုပျော်ရပါတယ်ဗျာ။ မမရဲ့အပြုံးလေးကမောင့်အတွက်အချစ်ရဲ့ အဓိပ္ပါယ်ပါပဲဗျာ။ 
+Happy Valentine's Day ပါဗျာ့🥹💞
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Music -->
+<audio id="music">
+  <source src="beabadoobee - Glue Song (Official Music Video).mp3" type="audio/mpeg">
+</audio>
+
+<!-- End Screen -->
+<div class="end-slide" id="endSlide">
+  Forever & Always ❤️
+</div>
+
+<script>
+function openEnvelope(){
+  const env = document.getElementById("env");
+  const music = document.getElementById("music");
+
+  env.classList.add("open");
+  music.play();
+
+  // Show ending slide after 1 min
+  setTimeout(() => {
+    document.getElementById("endSlide").classList.add("show-end");
+  }, 60000);
+}
+</script>
+
+</body>
+</html>
